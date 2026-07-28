@@ -30,9 +30,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
        
-      - name: Print OIDC claims
-        uses: github/actions-oidc-debugger@v1   
-      
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
