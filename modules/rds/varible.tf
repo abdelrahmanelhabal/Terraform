@@ -14,11 +14,11 @@ variable "engine" {
 }
 
 variable "rds_version" {
-  type = string 
+  type = string
 }
 
 variable "instnace_type" {
-  type = string 
+  type = string
 }
 
 variable "username" {

@@ -3,7 +3,7 @@ variable "vpc_id" {
 }
 
 variable "rds_sg_name" {
-  type = string  
+  type = string
 }
 
 variable "alb_sg_name" {

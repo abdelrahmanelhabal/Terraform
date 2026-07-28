@@ -2,7 +2,7 @@
 #                VPC                    #
 # ------------------------------------- #
 resource "aws_vpc" "vpc" {
-  cidr_block = var.vpc_cidr 
+  cidr_block = var.vpc_cidr
   tags = {
     Name = var.vpc_name
   }
@@ -15,7 +15,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = var.igw_name 
+    Name = var.igw_name
   }
 }
 
@@ -24,10 +24,10 @@ resource "aws_internet_gateway" "igw" {
 # ------------------------------------- #
 resource "aws_subnet" "public_subents" {
   count = length(var.public_subnet_cidr)
-  
-  vpc_id = aws_vpc.vpc.id 
-  cidr_block = var.public_subnet_cidr[count.index]
-  availability_zone = var.availability_zone[count.index]  
+
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.public_subnet_cidr[count.index]
+  availability_zone       = var.availability_zone[count.index]
   map_public_ip_on_launch = true
 
   tags = {
@@ -41,9 +41,9 @@ resource "aws_subnet" "public_subents" {
 resource "aws_subnet" "private_subents" {
   count = length(var.private_subnet_cidr)
 
-  vpc_id = aws_vpc.vpc.id 
-  cidr_block = var.private_subnet_cidr[count.index] 
-  availability_zone =  var.availability_zone[count.index] 
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.private_subnet_cidr[count.index]
+  availability_zone       = var.availability_zone[count.index]
   map_public_ip_on_launch = false
 
   tags = {
@@ -59,7 +59,7 @@ resource "aws_eip" "nat" {
 
   domain = "vpc"
 
-  tags= {
+  tags = {
     Name = "eip-${count.index}"
   }
 }
@@ -70,12 +70,12 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "nat_gateway" {
   count = length(aws_subnet.public_subents)
 
-  allocation_id = aws_eip.nat[count.index].id 
+  allocation_id = aws_eip.nat[count.index].id
 
-  subnet_id = aws_subnet.public_subents[count.index].id 
+  subnet_id = aws_subnet.public_subents[count.index].id
 
-  depends_on = [ aws_internet_gateway.igw ]
-  
+  depends_on = [aws_internet_gateway.igw]
+
   tags = {
     Name = "nat-${count.index + 1}"
   }
@@ -85,24 +85,24 @@ resource "aws_nat_gateway" "nat_gateway" {
 #              Public Route Table              #
 # -------------------------------------------- #
 resource "aws_route_table" "public" {
-   vpc_id = aws_vpc.vpc.id
-   route{
+  vpc_id = aws_vpc.vpc.id
+  route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id 
-   }
+    gateway_id = aws_internet_gateway.igw.id
+  }
 
-   tags = {
-     Name = var.public_route_table_name
-   }
+  tags = {
+    Name = var.public_route_table_name
+  }
 }
 
 # -------------------------------------------- #
 #              Private Route Table             #
 # -------------------------------------------- #
 resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.vpc.id 
-  route{
-    cidr_block = "0.0.0.0/0"
+  vpc_id = aws_vpc.vpc.id
+  route {
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat_gateway[0].id
   }
 
@@ -117,13 +117,13 @@ resource "aws_route_table" "private" {
 resource "aws_route_table_association" "public" {
   count = length(aws_subnet.public_subents)
 
-  subnet_id = aws_subnet.public_subents[count.index].id  
-  route_table_id = aws_route_table.public.id 
+  subnet_id      = aws_subnet.public_subents[count.index].id
+  route_table_id = aws_route_table.public.id
 }
 
 resource "aws_route_table_association" "private" {
   count = length(aws_subnet.private_subents)
 
-  subnet_id = aws_subnet.private_subents[count.index].id 
-  route_table_id = aws_route_table.public.id 
+  subnet_id      = aws_subnet.private_subents[count.index].id
+  route_table_id = aws_route_table.public.id
 }

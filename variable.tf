@@ -1,9 +1,9 @@
 variable "vpc_name" {
-  type = string 
+  type = string
 }
 
 variable "igw_name" {
-  type = string 
+  type = string
 }
 
 variable "vpc_cidr" {
@@ -23,15 +23,15 @@ variable "availability_zone" {
 }
 
 variable "public_route_table_name" {
-  type = string 
+  type = string
 }
 
 variable "private_route_table_name" {
-  type = string 
+  type = string
 }
 
 variable "alb_sg_name" {
-  type = string 
+  type = string
 }
 
 variable "bastion_host_sg_name" {
@@ -39,39 +39,39 @@ variable "bastion_host_sg_name" {
 }
 
 variable "app_sg_name" {
-  type = string 
+  type = string
 }
 
 variable "rds_sg_name" {
-  type = string 
+  type = string
 }
 
 variable "public_instacne_name" {
-  type = string 
+  type = string
 }
 
 variable "public_ami" {
-  type = string 
+  type = string
 }
 
 variable "public_instance_type" {
-  type = string 
+  type = string
 }
 
 variable "private_instance_name" {
-  type = string 
+  type = string
 }
 
 variable "private_ami" {
-  type = string 
+  type = string
 }
 
 variable "private_instance_type" {
-  type = string 
+  type = string
 }
 
 variable "alb_name" {
-  type = string 
+  type = string
 }
 
 variable "target_port" {
@@ -79,15 +79,15 @@ variable "target_port" {
 }
 
 variable "target_protocol" {
-  type = string 
+  type = string
 }
 
 variable "target_path" {
-  type = string 
+  type = string
 }
 
 variable "rds_name" {
-  type = string 
+  type = string
 }
 
 variable "subnet_group_name" {
@@ -99,23 +99,23 @@ variable "rds_engine" {
 }
 
 variable "rds_version" {
-  type = string 
+  type = string
 }
 
 variable "rds_instnace_type" {
-  type = string 
+  type = string
 }
 
 variable "rds_username" {
-  type = string 
+  type      = string
   sensitive = true
 }
 
 variable "rds_password" {
-  type = string 
+  type      = string
   sensitive = true
 }
 
 variable "key_name" {
-  type = string 
+  type = string
 }

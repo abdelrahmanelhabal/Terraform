@@ -15,17 +15,17 @@ variable "vpc_id" {
 }
 
 variable "target_port" {
-  type = string 
+  type    = string
   default = "8080"
 }
 
 variable "target_protocol" {
-  type = string
+  type    = string
   default = "HTTP"
 }
 
 variable "target_path" {
-  type = string
+  type    = string
   default = "/"
 }
 

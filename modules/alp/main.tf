@@ -2,28 +2,28 @@
 #             Application Load Balance            #
 # ----------------------------------------------- #
 resource "aws_lb" "alb" {
-  name = var.name 
+  name               = var.name
   load_balancer_type = "application"
-  internal = false
-  security_groups = var.alb_sg
-  subnets = var.alb_subnet_ids
+  internal           = false
+  security_groups    = var.alb_sg
+  subnets            = var.alb_subnet_ids
 }
 
 # ----------------------------------- #
 #             Target group            #
 # ----------------------------------- #
 resource "aws_lb_target_group" "app" {
-  name = "${var.name}-tg" 
-  port = var.target_port  
-  protocol = var.target_protocol 
-  vpc_id = var.vpc_id 
+  name     = "${var.name}-tg"
+  port     = var.target_port
+  protocol = var.target_protocol
+  vpc_id   = var.vpc_id
 
   health_check {
-    path = var.target_path
-    matcher = "200"
-    interval = 30
-    timeout = 5
-    healthy_threshold = 3
+    path                = var.target_path
+    matcher             = "200"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 3
     unhealthy_threshold = 3
   }
 }
@@ -43,11 +43,11 @@ resource "aws_lb_target_group_attachment" "app" {
 #             Listener            #
 # ------------------------------- #
 resource "aws_lb_listener" "Listener" {
-  load_balancer_arn = aws_lb.alb.arn 
-  port = 80 
-  protocol = "HTTP"
+  load_balancer_arn = aws_lb.alb.arn
+  port              = 80
+  protocol          = "HTTP"
   default_action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_lb_target_group.app.arn
   }
 }

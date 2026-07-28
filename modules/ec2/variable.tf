@@ -3,15 +3,15 @@ variable "public_instacne_name" {
 }
 
 variable "public_ami" {
-  type = string 
+  type = string
 }
 
 variable "public_instance_type" {
-  type = string 
+  type = string
 }
 
 variable "public_subnet_id" {
-  type = string 
+  type = string
 }
 
 variable "public_sg_id" {
@@ -24,19 +24,19 @@ variable "public_key_name" {
 }
 
 variable "private_instance_name" {
-  type = string 
+  type = string
 }
 
 variable "private_ami" {
-  type = string 
+  type = string
 }
 
 variable "private_instance_type" {
-  type = string 
+  type = string
 }
 
 variable "private_subnet_id" {
-  type = string 
+  type = string
 }
 
 variable "private_sg_id" {
