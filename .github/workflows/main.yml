@@ -1,5 +1,7 @@
 name: Terraform CI/CD
 
+run-name: Terraform ${{ github.event.inputs.command }}
+
 on:
   workflow_dispatch:
     inputs:
