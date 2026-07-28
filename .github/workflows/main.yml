@@ -1,0 +1,66 @@
+name: Terraform CI/CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "Select the Terraform command"
+        required: true
+        default: "plan"
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Execute Terraform Command
+        shell: bash
+        run: |
+          case "${{ github.event.inputs.command }}" in
+            plan)
+              echo "Running Terraform Plan..."
+              terraform plan
+              ;;
+            apply)
+              echo "Running Terraform Apply..."
+              terraform apply -auto-approve
+              ;;
+            destroy)
+              echo "Running Terraform Destroy..."
+              terraform destroy -auto-approve
+              ;;
+            *)
+              echo "Invalid command!"
+              exit 1
+              ;;
+          esac
