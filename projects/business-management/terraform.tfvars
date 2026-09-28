@@ -107,7 +107,7 @@ alb_version       = "1.7.1"
 # ----------------------- HELM / ARGO CD CONFIGURATION ----------------------- # 
 
 helm_version       = "5.46.7"
-lb_domain_name     = "argocd.example.com"
+lb_domain_name     = ""
 lb_scheme          = "internet-facing"
 ingress_path       = "/"
 ingress_group_name = "argocd-alb"

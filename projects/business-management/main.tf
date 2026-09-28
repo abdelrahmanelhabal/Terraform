@@ -128,6 +128,7 @@ module "nodegroup" {
   node_group_disk_size       = var.node_group_disk_size
   node_group_version         = var.node_group_version
   node_group_role            = var.node_group_role
+  eks_cluster_arn            = module.eks.cluster_arn
 }
 
 
@@ -145,7 +146,9 @@ module "alb" {
 
   depends_on = [
     module.eks,
-    module.nodegroup
+    module.nodegroup,
+    aws_eks_access_entry.terraform,
+    aws_eks_access_policy_association.terraform
   ]
 }
 
@@ -172,7 +175,9 @@ module "argocd" {
 
   depends_on = [
     module.eks,
-    module.nodegroup
+    module.nodegroup,
+    aws_eks_access_entry.terraform,
+    aws_eks_access_policy_association.terraform
   ]
 }
 
